@@ -1,87 +1,169 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Dashboard Example</title>
-<style type="text/css">
-body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
-iframe { border: none; width: 100%; height: 100%; display: none; }
-iframe.active { display: block;}
-</style>
-<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
-<script type="text/javascript">
-var Dash = {
-    nextIndex: 0,
-
-    //Don't put too many items in this list
-    dashboards: [
-        {url: "https://amphoterism.github.io/test/test.html", time: 10, refresh: true},
-        {url: "https://amphoterism.github.io/test/food.html", time: 10, refresh: true},
-        {url: "https://www.sigalert.com/?lat=34.01877&lon=-118.3033&z=2", time: 10, refresh: true}
-        {url: "https://www.espn.com/", time: 10, refresh: true}
-        {url: "https://www.cnn.com/", time: 10, refresh: true}
-    ],
-
-    startup: function () {
-        for (var index = 0; index < Dash.dashboards.length; index++) {
-						Dash.loadFrame(index);
-				}
-        setTimeout(Dash.display, Dash.dashboards[0].time * 1000);
-    },
-
-    loadFrame: function (index) {
-				var iframe = document.getElementById(index);
-				iframe.src = Dash.dashboards[index].url;
-    },
-
-    display: function () {
-        var dashboard = Dash.dashboards[Dash.nextIndex];
-				Dash.hideFrame(Dash.nextIndex - 1);
-				if (dashboard.refresh) {
-						Dash.loadFrame(Dash.nextIndex);
-				}
-				Dash.showFrame(Dash.nextIndex);
-        Dash.nextIndex = (Dash.nextIndex + 1) % Dash.dashboards.length;
-        setTimeout(Dash.display, dashboard.time * 1000);
-    },
-
-    hideFrame: function (index) {
-				if (index < 0) {
-						index = Dash.dashboards.length - 1;
-				}
-				$('#'+index).css({opacity: 1.0, visibility: "visible"}).animate({opacity: 0.0},2000);
-				setTimeout(function() {true;},2000);
-				document.getElementById(index).removeAttribute('class');
-    },
-
-    showFrame: function (index) {
-				$('#'+index).css({opacity: 0.0, visibility: "visible"}).animate({opacity: 1.0},200);
-				document.getElementById(index).setAttribute('class', 'active');
-    }
-};
-function fetchPage(url) {
-    $.ajax({
-        type: "GET",
-        url: url,
-        error: function(request, status) {
-            alert('Error fetching ' + url);
-        },
-        success: function(data) {
-            parse_hadoop_active_nodes(data.responseText);
-        }
-    });
-}
-
-function parse(data) {
-    alert($(data).find("#nodes").text());
-}
-
-window.onload = Dash.startup;
-</script>
 </head>
-<body>
-<iframe id="0" class="active"></iframe>
-<iframe id="1"></iframe>
-<iframe id="2"></iframe>
-<iframe id="3"></iframe>
+<body style="margin:0px;padding:0px;overflow:hidden;font-family:Arial;" onload="javaqscript:onTimer();">
+<div id="bgPicture" style="position: absolute; opacity: 0.4; width: 100%; height: 100%; background-color:white;"><img style="position:fixed;top: 50%; left: 50%;transform: translate(-50%, -50%);" src="bgpicture.png"></div>
+<div id="TitleBar" style="position: absolute; opacity: 1; width: 100%; height: 100%;"><strong><div id="ShowName" style="top: 2; left: 2; text-shadow: 2px 2px white;"></div></strong></div>
+<div id="CountDownMaster" style="position: absolute;top: 2; right: 0;"><strong><div id="CountDownCounter" style="text-shadow: 2px 2px white;"></div></strong></div>
+<div id="Menu" style="opacity: 0.8; display: none; position: absolute; background-color: white; overflow-y: scroll; height: 100%"><h3><u>Menu</u></h3></div>
+<div id="Pause" style="opacity: 0.2; display: none; position: absolute; background-color: transparent; height: 100%; color: white; text-shadow: 2px 2px black; width: 100%; text-align: center; font-size: xx-large"><h1>PAUSED</h1><br><h1>PAUSED</h1><br><h1>PAUSED</h1><br><h1>PAUSED</h1><br><h1>PAUSED</h1><br><h1>PAUSED</h1><br><h1>PAUSED</h1><br><h1>PAUSED</h1><br><h1>PAUSED</h1><br><h1>PAUSED</h1><br><h1>PAUSED</h1><br></div>
+<iframe src="about:blank" id="myframe" style="overflow:hidden;height:100vH;width:100%" frameborder="2" scrolling=no></iframe>
+<script type="text/javascript">
+var Source=[
+	'https://amphoterism.github.io/test/test.html',60,1,'Title 1',
+	'https://amphoterism.github.io/test/food.html',30,1,'Titel 2',
+	'https://www.sigalert.com/?lat=34.01877&lon=-118.3033&z=2',90,1,'Title 3',
+	'https://www.cnn.com',60,1,'Title 4'
+]
+iSources = Source.length - 1;
+var iSource=-1;
+var iMenu=-1;
+var bolPause=false;
+var bolRandomize=true; //change this to TRUE to have a randomized map cycle or change it to FALSE to go step by step through the defined URLs
+document.getElementById('myframe').src = Source[iSource];
+function fadeBG()
+{
+	if (!bolPause) {
+		var myDIV = document.getElementById('bgPicture');
+		if (myDIV.style.opacity > 0) 
+		{
+			myDIV.style.opacity = myDIV.style.opacity-0.01;
+			
+		}
+		
+		myDIV2 = document.getElementById("TitleBar");
+		if (myDIV2.style.opacity > 0) 
+		{
+			myDIV2.style.opacity = myDIV2.style.opacity-0.0025;
+			
+		}
+	}
+}
+var DoFadeBG = window.setInterval(fadeBG, 30);
+var CountDownValue=0;
+function ExecuteCountdown()
+{
+	if (CountDownValue > 0)
+	{
+		CountDownValue=CountDownValue-1;
+		document.getElementById("CountDownCounter").innerHTML = CountDownValue;
+	}
+}
+var DoCountDown = window.setInterval(ExecuteCountdown, 1000);
+function onTimer()
+{
+	window.clearTimeout(myTimeOut);
+	
+	if (iMenu > -1) {
+		iSource = iMenu;
+		iMenu = -1;
+	} else {
+		if (!bolRandomize) {
+			if (iSource >= iSources)
+			{
+				iSource = -1;
+			}	
+			iSource = iSource + 1;
+		} else {
+			iSource = Math.round((Math.floor(Math.random() * (+iSources - +0)) + +0) / 4) * 4;
+		}
+	}
+	document.getElementById('myframe').src = Source[iSource];
+	iSource = iSource + 1;
+	myTimeOut = window.setTimeout(onTimer, parseInt(Source[iSource])*1000);
+	CountDownValue=Source[iSource];
+	iSource = iSource + 1;
+	document.getElementById('bgPicture').style.opacity=Source[iSource];
+	iSource = iSource + 1;
+	document.getElementById('ShowName').innerHTML=Source[iSource];
+	document.getElementById('TitleBar').style.opacity=1;
+}
+myTimeOut = window.setTimeout(onTimer, 100);
+
+function ShowMenu()
+{
+	myList = document.createElement('ul');
+	myList.id= "MenuList";
+	
+	for (i = 0; i < iSources;){
+		tmpListItem = document.createElement('li');
+	
+		tmpLink = document.createElement('a');
+		tmpLink.href = "javascript:iMenu=" + (i) + ";onTimer();";//Source[i];
+		tmpLink.textContent = Source[(i+3)];
+		
+		tmpListItem.appendChild(tmpLink);
+
+		myList.appendChild(tmpListItem);
+		
+		i = i+4;
+	}
+	myMenu = document.getElementById("Menu");
+	myMenu.appendChild(myList);
+	document.getElementById("Menu").style.display="block";
+}
+
+function HideMenu()
+{
+	myList = document.getElementById("MenuList");
+	myList.parentNode.removeChild(myList);
+	document.getElementById("Menu").style.display="none";
+}
+
+var Key = {
+  LEFT:   37,
+  UP:     38,
+  RIGHT:  39,
+  DOWN:   40,
+  PAUSE:  80
+}; 
+function checkKey(e) {
+	e = e || window.event;
+	switch (e.keyCode) {
+		case Key.LEFT:
+			//info.value += "LEFT ";		
+			if (iSource>3)
+			{
+				iSource = iSource - (2*4);
+			}
+			else
+			{
+				iSource = (iSources-4);
+			}
+			onTimer();
+			break;
+		case Key.UP:
+			//info.value += "UP ";
+			ShowMenu();
+			break;
+		case Key.RIGHT:
+			//info.value += "RIGHT ";			
+			onTimer();
+			break;
+		case Key.DOWN:
+			HideMenu();
+			//info.value += "DOWN ";
+			break;
+		case Key.PAUSE:
+			bolPause = !bolPause;
+			if (bolPause) {
+				window.clearTimeout(myTimeOut);
+				document.getElementById("Pause").style.display="block";
+				CountDownValue=0;
+				document.getElementById("CountDownCounter").innerHTML = "Paused"
+				document.getElementById('TitleBar').style.opacity=1;
+				document.getElementById('bgPicture').style.opacity=0;
+			} else {
+				myTimeOut = window.setTimeout(onTimer, 100);
+				document.getElementById("Pause").style.display="none";
+			}
+			break;
+		default:
+			//info.value += "SOMEKEY ";
+	}
+}
+document.onkeydown = checkKey;
+</script>
 </body>
 </html>
