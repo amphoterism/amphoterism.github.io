@@ -4,7 +4,7 @@
 </head>
 <body style="margin:0px;padding:0px;overflow:hidden;font-family:Arial;" onload="javaqscript:onTimer();">
 <div id="bgPicture" style="position: absolute; opacity: 0.4; width: 100%; height: 100%; background-color:white;"><img style="position:fixed;top: 50%; left: 50%;transform: translate(-50%, -50%);" src="bgpicture.png"></div>
-<div id="TitleBar" style="position: absolute; opacity: 1; width: 100%; height: 100%;"><strong><div id="ShowName" style="top: 2; left: 2; text-shadow: 2px 2px white;"></div></strong></div>
+<!-- <div id="TitleBar" style="position: absolute; opacity: 1; width: 100%; height: 100%;"><strong><div id="ShowName" style="top: 2; left: 2; text-shadow: 2px 2px white;"></div></strong></div> -->
 <div id="CountDownMaster" style="position: absolute;top: 2; right: 0;"><strong><div id="CountDownCounter" style="text-shadow: 2px 2px white;"></div></strong></div>
 <div id="Menu" style="opacity: 0.8; display: none; position: absolute; background-color: white; overflow-y: scroll; height: 100%"><h3><u>Menu</u></h3></div>
 <div id="Pause" style="opacity: 0.2; display: none; position: absolute; background-color: transparent; height: 100%; color: white; text-shadow: 2px 2px black; width: 100%; text-align: center; font-size: xx-large"><h1>PAUSED</h1><br><h1>PAUSED</h1><br><h1>PAUSED</h1><br><h1>PAUSED</h1><br><h1>PAUSED</h1><br><h1>PAUSED</h1><br><h1>PAUSED</h1><br><h1>PAUSED</h1><br><h1>PAUSED</h1><br><h1>PAUSED</h1><br><h1>PAUSED</h1><br></div>
@@ -20,7 +20,7 @@ iSources = Source.length - 1;
 var iSource=-1;
 var iMenu=-1;
 var bolPause=false;
-var bolRandomize=true; //change this to TRUE to have a randomized map cycle or change it to FALSE to go step by step through the defined URLs
+var bolRandomize=false; //change this to TRUE to have a randomized map cycle or change it to FALSE to go step by step through the defined URLs
 document.getElementById('myframe').src = Source[iSource];
 function fadeBG()
 {
