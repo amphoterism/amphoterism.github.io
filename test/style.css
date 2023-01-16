@@ -1,0 +1,36 @@
+body {
+    background-image: url("wp5561395-earth-horizon-wallpapers.jpg");
+    width: 100%;
+    background-size: cover;
+    /* background-repeat: no-repeat; */
+    /* background-size: contain; */
+}
+
+.hero {
+    /* background-color: grey; */
+    width: 33%;
+}
+
+.hero-img {
+    width: 100%;
+}
+
+/* .help {
+    padding: 5px;
+    background-color: white;
+} */
+
+.room {
+    margin: 20px;
+    width: 10%;
+}
+
+.space {
+    margin: 0px 25px;
+}
+
+.weather {
+    margin: 25px;
+}
+
+
