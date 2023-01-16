@@ -1,44 +1,38 @@
-* {
+html {
     box-sizing: border-box;
+    font-family: Lato;
   }
   
-  body {
-    font-family: Arial, Helvetica, sans-serif;
+  *, *:before, *:after {
+    box-sizing: inherit;
   }
   
-  /* Float four columns side by side */
-  .column {
-    float: left;
-    width:50%;
-    padding: 0 10px;
-    position: absolute;
-    left: 50%;
-    margin-right: -50%;
+  section {
+    height: 200px;
+    width: 200px;
+    border: 1px solid #2d2d2d;
+    margin-bottom: 12px;
   }
   
-  /* Remove extra left and right margins, due to padding in columns */
-  .row {margin: 0 -5px;}
-  
-  /* Clear floats after the columns */
-  .row:after {
-    content: "";
-    display: table;
-    clear: both;
+  div {
+    color: #fff;
+    background: #2d2d2d;
+    padding: 12px;
   }
   
-  /* Style the counter cards */
-  .card {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
-    padding: 16px;
-    text-align: center;
-    background-color: #f1f1f1;
+  /* centering with CSS Grid */
+  .column-center {
+    display: grid;
+    justify-content: center;
+    gap: 4px;
+    align-content: center;
+    grid-auto-flow: column;
   }
   
-  /* Responsive columns - one column layout (vertical) on small screens */
-  @media screen and (max-width: 600px) {
-    .column {
-      width: 100%;
-      display: block;
-      margin-bottom: 20px;
-    }
+  .item-center {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 4px;
+    align-items: center;
+    justify-items: center;
   }
